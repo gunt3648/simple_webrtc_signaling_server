@@ -49,11 +49,10 @@ io.on("connection", (socket) => {
 			const newPeer = { socketId: socket.id, peerId, peerType };
 			// Updates connections object
 			connections[peerId] = newPeer;
-			socket.broadcast.emit("messageOne", {
-				type: "status",
-				from: "server",
-				target: peerId,
-				message: true
+			socket.broadcast.emit("message", {
+				type: "new_peer",
+				from: newPeer.peerId,
+				message: null
 			})
 		}
 	});
