@@ -51,7 +51,8 @@ io.on("connection", (socket) => {
 			connections[peerId] = newPeer;
 			socket.broadcast.emit("message", {
 				type: "new_peer",
-				from: newPeer.peerId,
+				from: peerId,
+				target: "all",
 				message: null
 			})
 		}
@@ -76,9 +77,10 @@ io.on("connection", (socket) => {
 			console.log("Disconnected", socket.id, "with peerId", disconnectingPeer.peerId);
 			// Make all peers close their peer channels
 			socket.broadcast.emit("message", {
+				type: "disconnect",
 				from: disconnectingPeer.peerId,
 				target: "all",
-				payload: { action: "close", message: "Peer has left the signaling server" },
+				message: disconnectingPeer.peerId + " has left the signaling server"
 			});
 			// remove disconnecting peer from connections
 			delete connections[disconnectingPeer.peerId];
