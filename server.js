@@ -14,7 +14,11 @@ const TOKEN = process.env.TOKEN;
 const app = express();
 app.use(express.json(), cors());
 const server = http.createServer(app);
-const io = socketio(server, { cors: {} });
+const io = socketio(server, {
+	cors: {
+		origin: ['http://localhost:3000', 'https://melodic-manatee-d875a1.netlify.app']
+	}
+});
 
 // AUTHENTICATION MIDDLEWARE
 io.use((socket, next) => {
